@@ -1,0 +1,8 @@
+Potrzebujemy aplikacji webowej, która wyświetli kontrolerom ruchu lotniczego bieżące prognozy pogody.
+Większość prognoz otrzymujemy od naszego partnera zewnętrznego. Partyner jest gotów wysyłać dane w wybranej przez nas technologii. Co proponujemy?
+Dodatkowe dane pozyskujemy przez FTP (są przeysłane na nasz serwer). i HTTP (sami je pobieramy) z publicznych źródeł. Są to dane zarówno tesktowe jak i graficzne.
+Potrzebujemy przechowywać porgnozy hisotryczne dop 3 miesięcy wstecz (kilkaset tysięcy rekordów i grafik).
+Czego użyjesz do przechowywania danych i szybkiego wyszukiwania. W folderze w którym lądują pliki wysyłane przez partnera po FTP może być do miliona plików,
+pliki przychodzą w niereguylarnych odstępach czasu ( średnio jakiś plik wpada co kilka, kilkanaście skund), zdarża się że pliki wysyłane wcześniej są poprawiane
+(wysyłany jest nowy plik ale z tą samą nazwą co poprzedni). Jka wychwtyujemy nowo przesłane pliki? Jak zapewnimy, żeby natychmiast po otrzymaniu nowej prognozy wyświetlić
+ją użytkownikowi? Nowo przesłane prognozy, powinny trafić na ekran kontrolera nie póżniej niż kilka sekund po otrzymaniu pliku niezależnie od tego czy plik przyszedł po FTP, API, AMQP.
