@@ -43,19 +43,22 @@ GET, PUT, DELETE, HEAD, OPTIONS and TRACE are idempotent.
 
 
 kody odpowiedzi HTTP:
-200 (OK) – oznacza, że żądanie zostało pomyślnie przetworzone i serwer zwrócił odpowiedź.
-201 (Created) – oznacza, że serwer utworzył nowy zasób i przesłał informacje o tym do przeglądarki.
-204 (No Content) – oznacza, że serwer przetworzył żądanie, ale nie zwrócił żadnej zawartości.
-301 (Moved Permanently) – oznacza, że żądany zasób został przeniesiony na nowy adres URL i będzie dostępny pod nowym adresem.
-302 (Found) – oznacza, że żądany zasób jest tymczasowo dostępny pod innym adresem URL.
-307 (Temporary Redirect) – oznacza, że żądany zasób jest tymczasowo dostępny pod innym adresem URL i przeglądarka powinna wysłać nowe żądanie.
-400 (Bad Request) – oznacza, że żądanie jest nieprawidłowe lub niekompletne.
-401 (Unauthorized) – oznacza, że klient nie ma dostępu do zasobu i musi podać prawidłowe dane uwierzytelniające.
-403 (Forbidden) - oznacza, że serwer zrozumiał zapytanie, ale uznał, że dana osoba nie ma dostępu do zasobu
-404 (Not Found) – oznacza, że żądany zasób nie został odnaleziony na serwerze.
-500 (Internal Server Error) – oznacza, że wystąpił nieoczekiwany błąd po stronie serwera i żądanie nie mogło zostać przetworzone.
-502 (Bad Gateway) – oznacza, że serwer, który działa jako pośrednik, otrzymał nieprawidłową odpowiedź od serwera docelowego.
-503 (Service Unavailable) – oznacza, że serwer jest chwilowo niedostępny i nie może przetwarzać żądań.
+* 200 (OK) – oznacza, że żądanie zostało pomyślnie przetworzone i serwer zwrócił odpowiedź.
+* 201 (Created) – oznacza, że serwer utworzył nowy zasób i przesłał informacje o tym do przeglądarki.
+* 204 (No Content) – oznacza, że serwer przetworzył żądanie, ale nie zwrócił żadnej zawartości.
+* 301 (Moved Permanently) – oznacza, że żądany zasób został przeniesiony na nowy adres URL i będzie dostępny pod nowym adresem.
+* 302 (Found) – oznacza, że żądany zasób jest tymczasowo dostępny pod innym adresem URL.
+* 307 (Temporary Redirect) – oznacza, że żądany zasób jest tymczasowo dostępny pod innym adresem URL i przeglądarka powinna wysłać nowe żądanie.
+* 400 (Bad Request) – oznacza, że żądanie jest nieprawidłowe lub niekompletne.
+* 401 (Unauthorized) – oznacza, że klient nie ma dostępu do zasobu i musi podać prawidłowe dane uwierzytelniające.
+* 403 (Forbidden) - oznacza, że serwer zrozumiał zapytanie, ale uznał, że dana osoba nie ma dostępu do zasobu
+* 404 (Not Found) – oznacza, że żądany zasób nie został odnaleziony na serwerze.
+* 500 (Internal Server Error) – oznacza, że wystąpił nieoczekiwany błąd po stronie serwera i żądanie nie mogło zostać przetworzone.
+* 502 (Bad Gateway) – oznacza, że serwer, który działa jako pośrednik, otrzymał nieprawidłową odpowiedź od serwera docelowego.
+* 503 (Service Unavailable) – oznacza, że serwer jest chwilowo niedostępny i nie może przetwarzać żądań.
 
 The "401 Unauthorized" status code indicates that the request lacks valid authentication credentials. 
 On the other hand, the "403 Forbidden" status code signifies that the server understands the request but refuses to fulfill it.
+
+Przykładowy URL requesta GET z paramsami:
+GET /users?page=2&limit=20 - Pobranie drugiej strony listy użytkowników, z limitem 20 użytkowników na stronę.

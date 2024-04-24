@@ -1,13 +1,13 @@
-import numpy as np
+i = [1,2]
 
-a = np.array([1, 2, 3])
-b = np.array([4, 5, 6])
 
-result = a + b
-print(f"result: {result}")
+def foo():
+    pass
 
-# a = [1,2,3]
-# b = [4,5,6]
-#
-# c = a+b
-# print(f"c: {c}")
+
+def some_fun(i):
+    i.append(55)
+
+
+some_fun(i)
+print(i)

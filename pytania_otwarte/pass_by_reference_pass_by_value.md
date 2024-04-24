@@ -12,5 +12,5 @@ W przypadku "pass by reference" (przekazywanie przez referencję), funkcja otrzy
 
 Python często jest opisywany jako język, który stosuje "pass by assignment" (przekazywanie przez przypisanie), co jest pewnym uproszczeniem. W rzeczywistości, Python zachowuje się jak "pass by value", gdzie wartością jest referencja do obiektu. To oznacza, że funkcje otrzymują referencję do obiektu, a nie sam obiekt, ale referencja ta jest przekazywana przez wartość. Efekt ten sprawia, że zachowanie jest mieszanką obu podejść:
 
-Jeśli przekazany argument jest obiektem niemutowalnym (takim jak liczba całkowita, krotka niemodyfikowalna, czy łańcuch znaków), każda próba jego zmodyfikowania w funkcji spowoduje utworzenie nowego obiektu, nie wpływając na oryginalny.
-Jeśli argument jest obiektem mutowalnym (takim jak lista, słownik, czy zbiór), modyfikacje tego obiektu w funkcji będą miały wpływ na oryginalną zmienną, ponieważ zarówno oryginalna zmienna, jak i argument funkcji odnoszą się do tego samego obiektu w pamięci.
+* Jeśli przekazany argument jest obiektem niemutowalnym (takim jak liczba całkowita, krotka niemodyfikowalna, czy łańcuch znaków), każda próba jego zmodyfikowania w funkcji spowoduje utworzenie nowego obiektu, nie wpływając na oryginalny.
+* Jeśli argument jest obiektem mutowalnym (takim jak lista, słownik, czy zbiór), modyfikacje tego obiektu w funkcji będą miały wpływ na oryginalną zmienną, ponieważ zarówno oryginalna zmienna, jak i argument funkcji odnoszą się do tego samego obiektu w pamięci.

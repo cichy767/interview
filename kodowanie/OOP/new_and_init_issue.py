@@ -18,6 +18,8 @@ Wywołanie __init__: Jeśli __new__ zwróci instancję klasy, dla której jest w
 Python automatycznie wywoła metodę __init__ tej klasy, aby zainicjalizować nowo utworzony obiekt, przekazując instancję jako pierwszy argument self,
 a następnie pozostałe argumenty przekazane do konstruktora klasy.
 """
+
+
 class FlightPlan:
     def __new__(cls, callsign, dep, des):
         if dep == des:

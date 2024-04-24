@@ -6,12 +6,13 @@ Kontenery Dockera zapewniają izolację i lekkość wirtualizacji, jednak robią
 1. Przestrzenie nazw (Namespaces)
 Przestrzenie nazw to funkcja jądra Linuxa, która ogranicza widoczność i dostęp do zasobów systemowych pomiędzy grupami procesów. Każdy kontener działa w swojej własnej, izolowanej przestrzeni nazw, co zapewnia, że procesy w jednym kontenerze nie mogą widzieć procesów w innych kontenerach ani interweniować w ich działanie. Istnieje kilka typów przestrzeni nazw, izolujących różne aspekty systemu operacyjnego, w tym:
 
-PID (Process ID): Izoluje przestrzeń identyfikatorów procesów, dzięki czemu procesy w każdym kontenerze mogą mieć własne, niepowtarzalne PIDy.
-NET (Network): Zapewnia kontenerom własne stosy sieciowe, adresy IP, tablice routingu itp.
-MNT (Mount): Izoluje punkty montowania, dzięki czemu kontenery mogą mieć własne systemy plików.
-IPC (Inter-Process Communication): Izoluje mechanizmy komunikacji międzyprocesowej.
-UTS (Unix Timesharing System): Pozwala kontenerom mieć własne nazwy hosta i domeny.
-USER: Izoluje przestrzenie identyfikatorów użytkowników i grup, umożliwiając procesom działanie z różnymi uprawnieniami w ramach kontenera.
+* PID (Process ID): Izoluje przestrzeń identyfikatorów procesów, dzięki czemu procesy w każdym kontenerze mogą mieć własne, niepowtarzalne PIDy.
+* NET (Network): Zapewnia kontenerom własne stosy sieciowe, adresy IP, tablice routingu itp.
+* MNT (Mount): Izoluje punkty montowania, dzięki czemu kontenery mogą mieć własne systemy plików.
+* IPC (Inter-Process Communication): Izoluje mechanizmy komunikacji międzyprocesowej.
+* UTS (Unix Timesharing System): Pozwala kontenerom mieć własne nazwy hosta i domeny.
+* USER: Izoluje przestrzenie identyfikatorów użytkowników i grup, umożliwiając procesom działanie z różnymi uprawnieniami w ramach kontenera.
+
 2. Grupy kontrolne (cgroups)
 Grupy kontrolne pozwalają Dockerowi ograniczać i monitorować zasoby systemowe, które mogą być używane przez kontenery, takie jak CPU, pamięć RAM, I/O dysku i sieci. Dzięki temu można zapobiec sytuacjom, w których jeden kontener zużywa nieproporcjonalną ilość zasobów, wpływając negatywnie na działanie innych kontenerów lub samego hosta.
 
