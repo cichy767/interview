@@ -1,6 +1,6 @@
 https://www.youtube.com/watch?v=pyqa47b4Fys
 
-Kiedy tworzymy obiekty w pythonie, python śledzi liczbę referencji do danego obieku. Gdy liczba referencji wyniesie 0, python memory manager zniszczy ten obiekt i odzyska pamięc poświęconą na te obiekty.
+Kiedy tworzymy obiekty w pythonie, python śledzi liczbę referencji do danego obieku. Gdy liczba referencji wyniesie 0, python memory manager zniszczy ten obiekt i odzyska pamięć poświęconą na te obiekty.
 Jednak czasem to nie działa, bo pojawiają się circular references i wtedy do akcji wchodzi Garbage collector.
 
 

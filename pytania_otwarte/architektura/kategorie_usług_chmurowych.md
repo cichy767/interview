@@ -1,3 +1,5 @@
+# Kategorie usług chmurowych
+
 SaaS, PaaS i IaaS to trzy główne kategorie usług chmurowych, które różnią się poziomem kontroli, elastyczności i zarządzania, jakie oferują użytkownikom i deweloperom. 
 Każda z nich ma swoje unikalne cechy i przypadki użycia.
 

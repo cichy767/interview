@@ -1,13 +1,24 @@
+# REST API
+
 API - Application Programming Interface
 
 interfejs - rodzaj połączenia umożliwjającego komunikację
 
-REST Representational state transfer - standard określający zasady projektowania API
+REST Representational state transfer - styl architektowniczny projektowania API
 WEB API opiera się o protokół HTTP
 najbardziej popularne akcje to create, read, update, delete ( CRUD )
 
 1. Uniform interface - Jednolity interfejs komunikacyjny
-interfejs powinien zapewniać ustandaryzowaną komunikację pomiędzy klientem a serwerem
+Uniform Interface to jedna z kluczowych zasad architektury REST (Representational State Transfer), zapewniająca spójność i przewidywalność w interakcji pomiędzy klientem a serwerem. Dzięki temu REST API jest łatwiejsze do użycia, rozszerzalne i niezależne od konkretnej technologii.
+Identyfikacja zasobów (Resource Identification)
+- Każdy zasób (np. użytkownik, produkt, zamówienie) powinien mieć **unikatowy identyfikator URI**.
+- Zasoby to **rzeczowniki**, a nie czasowniki!
+- Przykłady:
+  - ✅ **GET** `/users/123` → Pobranie danych użytkownika o ID 123  
+  - ✅ **DELETE** `/orders/987` → Usunięcie zamówienia o ID 987  
+  - ❌ **GET** `/getUser?id=123` → To nie jest RESTful, bo używa czasownika w URL  
+  - ❌ **POST** `/createNewOrder` → To też nie jest RESTful, bo powinien być użyty `POST /orders`  
+
 
 2. Client-server
 wyraźny podział pomiędzy aplikacją działającą po stronie klienta i serwera

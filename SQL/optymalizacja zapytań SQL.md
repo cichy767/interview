@@ -1,4 +1,4 @@
-Jak można zaoptymalizować zapytanie SQL?
+Jak można zoptymalizować zapytanie SQL?
 Optymalizacja polega na skróceniu czasu egzekucji zapytania lub zmniejszenia wykorzystywania zasobów.
 1. Można sprawdzić czy dodanie indexów pomoże. Indexy pomagają przy zapytaniach SELECT. Ale spowalniają CREATE UPDATE DELETE.
 2. Warto sprawdzić zasoby, które wykorzystuje baza. 

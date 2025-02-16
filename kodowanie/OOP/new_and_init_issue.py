@@ -34,7 +34,7 @@ class FlightPlan:
         # return self
 
 
-# fp1 = FlightPlan('asd', 'a', 'a')
-fp1 = FlightPlan('asd', 'a', 'd')
+fp1 = FlightPlan('asd', 'a', 'a')
+# fp1 = FlightPlan('asd', 'a', 'd')
 
 print(fp1.is_local)

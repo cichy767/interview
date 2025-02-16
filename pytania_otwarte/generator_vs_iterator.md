@@ -1,3 +1,4 @@
+# Generator vs Iterator
 Podstawowe Różnice
 
 * Definicja: 

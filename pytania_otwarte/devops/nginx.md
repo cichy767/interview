@@ -1,4 +1,4 @@
-Nginx (wymowa: "engine x") to wszechstronny serwer HTTP oraz serwer proxy. Opracowany początkowo przez Igora Sysoeva, jest teraz rozwijany jako oprogramowanie open-source. Nginx jest znany ze swojej wysokiej wydajności, skalowalności oraz niskiego zużycia zasobów.
+Nginx (wymowa: "engine x") to wszechstronny serwer HTTP oraz serwer proxy. Nginx jest znany ze swojej wysokiej wydajności, skalowalności oraz niskiego zużycia zasobów.
 
 Główne zastosowania Nginx to:
 

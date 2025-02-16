@@ -34,7 +34,7 @@ emp_1 = Employee('Corey', 'Schafer', 50000)
 emp_2 = Employee('Test', 'Employee', 60000)
 
 print(f"emp_1: {emp_1}")
-# print(emp_1 + emp_2)
+print(emp_1 + emp_2)
 print('Corey' in emp_1)  # True
 
 print(len(emp_1))

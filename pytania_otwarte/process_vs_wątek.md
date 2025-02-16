@@ -1,3 +1,5 @@
+# Czym jest wątek i proces i czym się różnią?
+
 Wątek (ang. thread) – część programu wykonywana współbieżnie w obrębie jednego procesu; w jednym procesie może istnieć wiele wątków.
 
 

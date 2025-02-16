@@ -1,9 +1,9 @@
-**Global Interpreter Lock (GIL)**
+**Global Interpreter Lock (GIL) w Pythonie**
 
-to mechanizm synchronizacji, który jest używany w głównych implementacjach Pythona, 
-takich jak CPython, aby zapewnić, że tylko jeden wątek wykonuje kod bajtowy Pythona naraz. 
-Jest to rodzaj blokady, która uniemożliwia równoczesne wykonywanie wielu wątków w jednym procesie interpretera, 
-co ma na celu uproszczenie zarządzania pamięcią i uniknięcie problemów z bezpieczeństwem wątków przy dostępie do zasobów współdzielonych.
+Global Interpreter Lock (GIL) to mechanizm synchronizacji stosowany w głównych implementacjach Pythona, takich jak CPython (CPython to domyślna implementacja Pythona). 
+Zapewnia on, że tylko jeden wątek może wykonywać kod bajtowy Pythona w danym momencie. 
+Jest to blokada, która uniemożliwia jednoczesne wykonywanie wielu wątków w jednym procesie interpretera. 
+Jej głównym celem jest uproszczenie zarządzania pamięcią oraz unikanie problemów z bezpieczeństwem wątków przy dostępie do zasobów współdzielonych.
 
 **Dlaczego GIL istnieje?**
 
@@ -12,6 +12,7 @@ Bez GIL każdy dostęp do obiektów Pythona musiałby być chroniony przez bloka
 co znacznie skomplikowałoby kod źródłowy interpretera i mogłoby mieć negatywny wpływ na wydajność dla jednowątkowych programów.
 
 Wpływ GIL na Wielowątkowość
+
 Choć GIL upraszcza implementację interpretera i pomaga w zarządzaniu pamięcią, ma też znaczący wpływ na programowanie wielowątkowe w Pythonie:
 
 * Ogranicza równoległość: W aplikacjach CPU-bound, gdzie wątki intensywnie korzystają z procesora, GIL może być wąskim gardłem, ponieważ w danym momencie tylko jeden wątek może być wykonywany. 
@@ -23,7 +24,9 @@ W takich przypadkach multiwątkowość może pomóc w zwiększeniu wydajności p
 
 **asyncio**
 
-omija ograniczenia wielowątkowości narzucone przez Global Interpreter Lock (GIL) w Pythonie, nie przez zastępowanie wielowątkowości, ale przez asynchroniczne wykonywanie zadań w ramach pojedynczego wątku. Oto, jak to działa:
+omija ograniczenia wielowątkowości narzucone przez Global Interpreter Lock (GIL) w Pythonie, nie przez zastępowanie wielowątkowości, 
+ale przez asynchroniczne wykonywanie zadań w ramach pojedynczego wątku. 
+Oto, jak to działa:
 
 **Jednowątkowość i Asynchroniczność**
 

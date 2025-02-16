@@ -7,7 +7,7 @@ class A(object):
 class B(A):
     def save(self):
         print("B")
-
+    pass
 
 class C(A):
     def save(self):

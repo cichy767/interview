@@ -4,23 +4,25 @@ Wybór między Celery a asyncio zależy od konkretnych wymagań i charakterystyk
 * Zadania asynchroniczne i harmonogramowanie: Celery jest silnym narzędziem do obsługi asynchronicznych zadań i harmonogramowania zadań w tle. Jest to szczególnie przydatne w przypadku zadań, które wymagają przetwarzania w tle, takich jak wysyłanie e-maili, generowanie raportów, integracje z usługami zewnętrznymi itp.
 * Wsparcie dla kolejek zadań: Celery oferuje elastyczne mechanizmy kolejek, które pozwalają na dystrybucję zadań do wielu pracowników (workers) oraz kontrolę nad priorytetami i kolejkami zadań.
 * Łatwość konfiguracji: Celery ma bogatą dokumentację i obszerną społeczność, co ułatwia jego konfigurację i rozpoczęcie pracy z tym narzędziem. Posiada również wiele wbudowanych mechanizmów kontroli błędów, monitoringu oraz skalowania.
+* Obsługa zarówno CPU-bound, jak i I/O-bound zadań: Celery domyślnie wykorzystuje wieloprocesowość (prefork), co sprawia, że dobrze radzi sobie z zadaniami CPU-bound. Można również skonfigurować go do obsługi zadań I/O-bound poprzez użycie wątków (threads) lub asyncio workers (gevent).
 
 **asyncio**
 
-Programowanie asynchroniczne w Pythonie: asyncio to biblioteka standardowa Pythona, która umożliwia programowanie asynchroniczne, pozwalając na równoległe wykonywanie wielu zadań I/O-zorientowanych bez blokowania wątków. Jest przydatne w aplikacjach, które muszą obsługiwać wiele równoległych operacji wejścia/wyjścia, takich jak serwisy sieciowe, API, serwisy internetowe itp.
+* Programowanie asynchroniczne w Pythonie: asyncio to biblioteka standardowa Pythona, która umożliwia programowanie asynchroniczne, pozwalając na równoległe wykonywanie wielu zadań I/O-zorientowanych bez blokowania wątków. Jest przydatne w aplikacjach, które muszą obsługiwać wiele równoległych operacji wejścia/wyjścia, takich jak serwisy sieciowe, API, serwisy internetowe itp.
 
-* Wydajność dla zadań I/O-zorientowanych: asyncio może być szczególnie skuteczne w obsłudze zadań, które są zdominowane przez operacje wejścia/wyjścia, ponieważ umożliwia asynchroniczne wykonanie wielu takich operacji w jednym wątku.
-* Prostota i minimalizm: asyncio oferuje prostszy i bardziej minimalistyczny model programowania niż Celery, co może być korzystne w przypadku prostszych projektów lub tych, które nie wymagają pełnego systemu zarządzania zadaniami w tle.
+* Wydajność dla zadań I/O-zorientowanych: asyncio może być szczególnie skuteczne w obsłudze zadań, które są zdominowane przez operacje wejścia/wyjścia, ponieważ umożliwia asynchroniczne wykonanie wielu takich operacji w jednym wątku. Jednak operacje muszą wspierać asyncio (np. asyncpg zamiast psycopg2, httpx zamiast requests).
+* Prostota i minimalizm: asyncio oferuje prostszy i bardziej minimalistyczny model programowania niż Celery, co może być korzystne w przypadku prostszych projektów lub tych, które nie wymagają pełnego systemu zarządzania zadaniami w tle.  asyncio nie wykorzystuje tradycyjnych wątków, ale korutyny i pętlę zdarzeń (event loop), co daje pełną kontrolę nad momentem przełączania kontekstu (await).
  
-Podsumowanie
+## Podsumowanie
 Celery: Bardziej odpowiedni dla złożonych aplikacji wymagających zarządzania zadaniami w tle, harmonogramowaniem, monitorowaniem i skalowaniem.
+
 asyncio: Lepszy wybór dla aplikacji opartych na operacjach I/O, gdzie wydajność i równoległe wykonywanie wielu operacji są kluczowe, a zarządzanie zadaniami w tle nie jest głównym wymaganiem.
+
 W niektórych przypadkach można również wykorzystać oba podejścia równocześnie, np. używając asyncio w warstwie serwerowej do obsługi wielu żądań I/O-zorientowanych, a Celery do obsługi zadań asynchronicznych i zadań tła. Ostateczny wybór zależy od specyfiki projektu oraz preferencji deweloperów i zespołu.
 
-**CPU bound tasks** to takie które używają procesora, liczą coś, wykorzystują moc obliczeniową. - lepsze celery/multiprocessing
+**CPU-bound tasks**: Zadania, które wykorzystują moc obliczeniową procesora, np. przetwarzanie danych, analiza obrazów, obliczenia matematyczne. Najlepszy wybór: Celery/multiprocessing.
 
-**I/O bound tasks** to takie które czekają na input/output i nie wykorzystują w tym czasie procesora. - lepsze asyncio/threading
-np. czytanie/pisanie do pliku, albo operacje sieciowe/requesty
+**I/O-bound tasks**: Zadania, które oczekują na wejście/wyjście, np. czytanie/pisanie do pliku, operacje sieciowe, zapytania do bazy danych. Najlepszy wybór: asyncio/threading.
 
 Wykorzystanie thredingu do zadań które wmagają dużej mocy obliczeniowej może wpłynąć negatywnie na czas wykonania.
 

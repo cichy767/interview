@@ -1,4 +1,5 @@
 from copy import deepcopy
+
 # Czym różni się == od is?
 # zmienne mutowalne i niemutowalne
 # niemutowalne: int, float, complex, krotka, string, bool
@@ -36,6 +37,7 @@ l5.append(100)
 print(f"l5: {l5}")
 print(f"l6: {l6}")
 
+print('------------')
 l7 = [1, 2, 3, [10, 20]]
 l8 = l7.copy()
 l7.append(10)
@@ -45,7 +47,7 @@ print(f"l8: {l8}")
 l8[3].append(1000)
 print(f"l7: {l7}")
 print(f"l8: {l8}")
-
+print('------------')
 l9 = deepcopy(l8)
 l9[3].append(999)
 print(f"l8: {l8}")
@@ -73,4 +75,12 @@ print(f"() is True: {() is True}")  # False
 print(f"(1,2) is True: {(1, 2) is True}")  # False
 print(f"[1,2,3] is True: {[1, 2, 3] is True}")  # False
 
-#
+# J eśli chcesz sprawdzić, czy dany obiekt ma wartość logiczną True, powinieneś użyć bool(obj) lub warunku if zamiast is True:
+print(f"(1,2) is truthy: {bool((1, 2))}")  # True
+print(f"[1,2,3] is truthy: {bool([1, 2, 3])}")  # True
+
+if (1, 2):  # Działa poprawnie
+    print("Tuple is truthy!")
+
+if [1, 2, 3]:  # Działa poprawnie
+    print("List is truthy!")

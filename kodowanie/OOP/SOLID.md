@@ -11,6 +11,35 @@ Oto one:
 Każda klasa powinna mieć tylko jeden powód do zmiany. To oznacza, że klasa powinna mieć tylko jedno zadanie lub odpowiedzialność.
 W Pythonie, to często oznacza użycie prostych klas i funkcji, które wykonują jedną rzecz i robią to dobrze.
 
+```python
+class ReportGenerator:
+    def generate_report(self, data):
+        # Logika generowania raportu
+        return f"Raport na podstawie: {data}"
+
+    def save_to_database(self, report):
+        # Logika zapisu raportu do bazy danych
+        print(f"Zapisano raport: {report}")
+
+    def send_via_email(self, report, recipient):
+        # Logika wysyłania raportu e-mailem
+        print(f"Wysłano raport do: {recipient}")
+```
+poprawione na
+```python
+class ReportGenerator:
+    def generate(self, data):
+        return f"Raport na podstawie: {data}"
+
+class ReportSaver:
+    def save_to_database(self, report):
+        print(f"Zapisano raport: {report}")
+
+class ReportSender:
+    def send_via_email(self, report, recipient):
+        print(f"Wysłano raport do: {recipient}")
+```
+
 **Open/Closed Principle (Zasada Otwarte/Zamknięte):**
 
 Oprogramowanie powinno być otwarte na rozszerzenia, ale zamknięte na modyfikacje. Innymi słowy, powinieneś być w stanie dodać nową funkcjonalność bez zmiany istniejącego kodu.
@@ -23,8 +52,10 @@ W Pythonie, to zasada przypomina o konieczności zachowania spójności interfej
 
 **Interface Segregation Principle (Zasada Segregacji Interfejsu):**
 
-Klienci nie powinni być zmuszani do polegania na interfejsach, których nie używają. To oznacza, że zamiast jednego dużego interfejsu, lepiej jest mieć wiele mniejszych i bardziej specyficznych.
-W Pythonie, który jest językiem o dynamicznym typowaniu, ta zasada może być mniej formalna, ale nadal wartościowa w kontekście definiowania jasnych i zrozumiałych API.
+* Mówi, że klasy nie powinny być zmuszane do implementowania metod, których nie potrzebują.
+* Koncentruje się na podziale interfejsów na mniejsze, bardziej wyspecjalizowane, zamiast tworzenia jednego dużego interfejsu.
+* Zapobiega sytuacjom, w których klasy implementują metody, które nie mają sensu w ich kontekście.
+
 ```python
 class IMultiFunctionDevice:
     def print(self, document):
