@@ -32,3 +32,6 @@ Docker używa unii systemów plików, takich jak OverlayFS, które pozwalają ko
 Dodatkowo, Docker i system operacyjny mogą używać różnych mechanizmów bezpieczeństwa, takich jak SELinux, AppArmor, i seccomp, aby jeszcze bardziej zwiększyć izolację i ograniczyć możliwości działania kontenerów. Te narzędzia mogą nakładać dodatkowe polityki bezpieczeństwa, które ograniczają działania, jakie kontenery mogą wykonywać, i zasoby, do których mogą mieć dostęp.
 
 Dzięki tym mechanizmom kontenery Dockera oferują silną izolację przy jednoczesnym zachowaniu wydajności i elastyczności, co czyni je popularnym rozwiązaniem w wielu scenariuszach deweloperskich i produkcyjnych.
+
+
+
