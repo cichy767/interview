@@ -1,41 +1,42 @@
-**Global Interpreter Lock (GIL) w Pythonie**
+# Global Interpreter Lock (GIL)
 
-Global Interpreter Lock (GIL) to mechanizm synchronizacji stosowany w głównych implementacjach Pythona, takich jak CPython (CPython to domyślna implementacja Pythona). 
-Zapewnia on, że tylko jeden wątek może wykonywać kod bajtowy Pythona w danym momencie. 
-Jest to blokada, która uniemożliwia jednoczesne wykonywanie wielu wątków w jednym procesie interpretera. 
-Jej głównym celem jest uproszczenie zarządzania pamięcią oraz unikanie problemów z bezpieczeństwem wątków przy dostępie do zasobów współdzielonych.
+## Krótka odpowiedź rekrutacyjna
 
-**Dlaczego GIL istnieje?**
+W standardowym wariancie CPythona GIL pozwala jednemu wątkowi wykonywać kod bajtowy
+Pythona naraz w obrębie danego interpretera. Ułatwia ochronę wewnętrznych struktur
+interpretera i zarządzanie pamięcią, ale nie zastępuje synchronizacji danych aplikacji.
+Złożone operacje na współdzielonym stanie nadal mogą wymagać `threading.Lock`.
 
-Głównym powodem istnienia GIL jest uproszczenie implementacji CPythona poprzez eliminację potrzeby stosowania blokad wewnętrznych w strukturach danych interpretera. 
-Bez GIL każdy dostęp do obiektów Pythona musiałby być chroniony przez blokady, 
-co znacznie skomplikowałoby kod źródłowy interpretera i mogłoby mieć negatywny wpływ na wydajność dla jednowątkowych programów.
+## Wersja i implementacja mają znaczenie
 
-Wpływ GIL na Wielowątkowość
+- Opis dotyczy standardowego CPythona z włączonym GIL, w tym wersji 3.11 i 3.12.
+- Od CPythona 3.13 istnieje opcjonalny wariant free-threaded, który może działać bez GIL.
+- Rozszerzenia C nieprzystosowane do free threading mogą ponownie włączyć GIL.
+- GIL nie jest wymogiem języka Python; inne implementacje mogą działać inaczej.
 
-Choć GIL upraszcza implementację interpretera i pomaga w zarządzaniu pamięcią, ma też znaczący wpływ na programowanie wielowątkowe w Pythonie:
+## Wątki, I/O i obliczenia
 
-* Ogranicza równoległość: W aplikacjach CPU-bound, gdzie wątki intensywnie korzystają z procesora, GIL może być wąskim gardłem, ponieważ w danym momencie tylko jeden wątek może być wykonywany. 
-To ogranicza skalowalność aplikacji na wielordzeniowych procesorach.
+Wątki są rzeczywistymi wątkami systemowymi. CPython zwalnia GIL przy wielu
+blokujących operacjach I/O, więc wątki mogą obsługiwać oczekiwanie na sieć lub dysk
+współbieżnie. Rozszerzenia natywne mogą również zwalniać GIL podczas obliczeń.
 
-* Nie wpływa na operacje I/O: W aplikacjach I/O-bound, które głównie oczekują na operacje wejścia/wyjścia (na przykład odczyt z sieci lub dysku), 
-GIL ma mniejsze znaczenie, ponieważ wątki są zablokowane przez operacje I/O, a nie przez GIL. 
-W takich przypadkach multiwątkowość może pomóc w zwiększeniu wydajności przez asynchroniczne przetwarzanie.
+Dla obliczeń CPU-bound w czystym Pythonie, przy włączonym GIL, zwykle wybiera się
+osobne procesy. Każdy proces ma własny interpreter i nie konkuruje o ten sam GIL.
+Dobór rozwiązania należy potwierdzić pomiarem na rzeczywistych danych.
 
-**asyncio**
+## asyncio
 
-omija ograniczenia wielowątkowości narzucone przez Global Interpreter Lock (GIL) w Pythonie, nie przez zastępowanie wielowątkowości, 
-ale przez asynchroniczne wykonywanie zadań w ramach pojedynczego wątku. 
-Oto, jak to działa:
+`asyncio` pozwala przeplatać korutyny na pętli zdarzeń, zwykle w jednym wątku.
+Gdy zadanie oczekuje na niezakończoną operację przez `await`, inne zadania mogą działać.
+Nie każde `await` musi jednak oddać sterowanie, np. gdy wynik jest już gotowy.
 
-**Jednowątkowość i Asynchroniczność**
+`asyncio` nie usuwa GIL i samo nie zapewnia równoległych obliczeń CPU-bound.
+Długie obliczenie lub blokujące wywołanie w wątku pętli zatrzymuje pozostałe zadania.
+Blokujące I/O można przenieść do `asyncio.to_thread()`, a obliczenia w standardowym
+CPythonie do puli procesów, np. przez `run_in_executor()`.
 
-Jednowątkowość: asyncio działa w ramach pojedynczego wątku, wykorzystując model programowania oparty na korutynach i zdarzeniach (event loop). 
-Oznacza to, że kod wykonuje się sekwencyjnie, ale może być "przerwany" w punktach await, 
-gdzie program czeka na zakończenie operacji wejścia/wyjścia (I/O) lub innych asynchronicznych zadań. To pozwala na wykonanie innych czynności w tym samym wątku bez blokowania.
+## Źródła
 
-**Omijanie GIL**
-
-Omijanie GIL: Ponieważ asyncio nie używa wielu wątków do obsługi równoległych operacji I/O, nie jest bezpośrednio ograniczone przez GIL, 
-który blokuje jednoczesne wykonanie wielu wątków w interpreterze CPython. Zamiast tego, asyncio umożliwia asynchroniczne wykonywanie zadań, 
-maksymalizując wykorzystanie pojedynczego wątku i unikając opóźnień związanych z przełączaniem kontekstu w wielowątkowości.
+- [Python — threading i GIL](https://docs.python.org/3/library/threading.html#gil-and-performance-considerations)
+- [Python — free threading, od wersji 3.13](https://docs.python.org/3/howto/free-threading-python.html)
+- [Python 3.12 — blokujący kod w asyncio](https://docs.python.org/3.12/library/asyncio-dev.html#running-blocking-code)

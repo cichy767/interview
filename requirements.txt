@@ -1,0 +1,2 @@
+# Opcjonalny przykład pomiaru pamięci: kodowanie.generatory.third_example
+psutil>=5.9.8,<8

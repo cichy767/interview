@@ -5,7 +5,11 @@ eliminując konieczność pisania osobnych APIView dla różnych operacji.
 W skrócie:
 
 ViewSet to zestaw widoków dla określonego modelu/danych.
-Automatycznie obsługuje metody HTTP (GET, POST, PUT, DELETE).
+Sam `ViewSet` nie implementuje operacji CRUD. Akcje, takie jak `list()` i `create()`, trzeba zdefiniować samodzielnie.
+`ModelViewSet` dostarcza standardowe akcje CRUD, w tym `partial_update()` dla PATCH.
+Router mapuje zaimplementowane akcje na metody HTTP i adresy URL.
+
+Źródło: [DRF — ViewSets](https://www.django-rest-framework.org/api-guide/viewsets/).
 Współpracuje z routerami (routers.DefaultRouter), co upraszcza zarządzanie URL-ami.
 
 

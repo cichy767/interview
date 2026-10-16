@@ -1,5 +1,5 @@
 # metoda __new__ musi zwracać obiekt
-# metoda init musi zwrazać None
+# metoda __init__ musi zwracać None
 """
 Zadanie: Metoda __new__ jest statyczną metodą fabryczną (chociaż formalnie nie jest deklarowana jako statyczna),
 co oznacza, że jest odpowiedzialna za tworzenie nowych instancji obiektów.
@@ -22,19 +22,19 @@ a następnie pozostałe argumenty przekazane do konstruktora klasy.
 
 class FlightPlan:
     def __new__(cls, callsign, dep, des):
-        if dep == des:
-            cls.is_local = True
-        obj = object.__new__(cls)
-        return obj
+        # __new__ tworzy instancję; jej dane ustawiamy w __init__.
+        return super().__new__(cls)
 
     def __init__(self, callsign, dep, des):
         self.callsign = callsign
         self.dep = dep
         self.des = des
+        self.is_local = dep == des
         # return self
 
 
-fp1 = FlightPlan('asd', 'a', 'a')
-# fp1 = FlightPlan('asd', 'a', 'd')
-
-print(fp1.is_local)
+if __name__ == "__main__":
+    fp1 = FlightPlan('asd', 'a', 'a')
+    fp2 = FlightPlan('other', 'a', 'd')
+    print(fp1.is_local)  # True
+    print(fp2.is_local)  # False

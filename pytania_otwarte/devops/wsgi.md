@@ -42,4 +42,15 @@ server {
     }
 }
 ```
-uWSGI uruchamiany jest np. komendą: uwsgi --http :8000 --module myapp:app.
+Do powyższego `uwsgi_pass` uruchom backend z protokołem uwsgi:
+
+```sh
+uwsgi --socket 127.0.0.1:8000 --module myapp:app
+```
+
+Jeżeli uruchamiasz backend przez `--http 127.0.0.1:8000`, użyj w Nginx
+`proxy_pass http://127.0.0.1:8000;`, tak jak w przykładzie z Gunicornem.
+`uwsgi_pass` i `proxy_pass` używają różnych protokołów i nie są zamienne.
+WSGI jest interfejsem aplikacji Pythona; uwsgi jest protokołem komunikacji z serwerem uWSGI.
+
+Źródło: [Konfiguracja uWSGI i Nginx](https://uwsgi-docs.readthedocs.io/en/latest/tutorials/Django_and_nginx.html).

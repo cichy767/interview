@@ -33,45 +33,23 @@ Assume that:
 
 
 def solution(A, X):
-    print(f"A: {A} X: {X}")
     N = len(A)
     if N == 0:
         return -1
     l = 0
     r = N - 1
     while l < r:
-        print(f"start loop l: {l} r: {r}")
-        m = (l + r) // 2
-        print(f"m: {m}")
+        # Górny środek gwarantuje postęp także wtedy, gdy r == l + 1.
+        m = (l + r + 1) // 2
         if A[m] > X:
             r = m - 1
-            print(f"reducing r! X: {X} A[m]: {A[m]} r: {r}")
         else:
             l = m
-            print(f"X: {X} A[m]: {A[m]} l: {l}")
 
     if A[l] == X:
-        print(f"A[l]: {A[l]} X: {X}")
         return l
     return -1
 
 
-res = solution([1, 2, 3], 2)
-print(f"res: {res}")
-
-# def solution(A, X):
-#     N = len(A)
-#     if N == 0:
-#         return -1
-#     l = 0
-#     r = N - 1
-#     while l < r:  # Change 1: Modify the loop condition to allow 'l' to equal 'r'
-#         m = (l + r) // 2
-#         if A[m] < X:
-#             l = m + 1  # Change 2: Ensure 'l' progresses past 'm'
-#         elif A[m] > X:
-#             r = m - 1
-#         else:
-#             return m  # Found X, return the index
-#
-#     return -1  # X was not found in the array
+if __name__ == "__main__":
+    print(solution([1, 2, 3], 2))

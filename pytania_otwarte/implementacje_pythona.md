@@ -4,7 +4,10 @@ Oto niektóre z najbardziej znanych implementacji Pythona:
 **CPython:** 
 Jest to standardowa i najczęściej używana implementacja Pythona, napisana w języku C. 
 CPython jest również implementacją referencyjną Pythona, co oznacza, że większość dokumentacji Pythona odnosi się do tej wersji. 
-CPython wykorzystuje Global Interpreter Lock (GIL), co ma wpływ na obsługę wielowątkowości.
+Standardowy wariant CPythona wykorzystuje Global Interpreter Lock (GIL), co ogranicza równoległe wykonywanie kodu bajtowego przez wątki.
+Od Pythona 3.13 dostępny jest również opcjonalny wariant free-threaded, który może działać bez GIL.
+Rozszerzenia C muszą wspierać ten wariant; część z nich może ponownie włączyć GIL.
+Źródło: [Python — free threading](https://docs.python.org/3/howto/free-threading-python.html).
 
 **PyPy:** 
 PyPy to alternatywna implementacja Pythona, skupiająca się na szybkości wykonania i efektywności. 

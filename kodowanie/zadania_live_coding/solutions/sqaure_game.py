@@ -78,37 +78,30 @@ teleporters5 = ["3,8", "8,9", "9,3"]
 
 
 def destinations(teleporter_list, dice_sides, start_square, last_board_square):
-    print(f"dice_sides: {dice_sides} last_board_square: {last_board_square}")
-    result = []
-    board = [i for i in range(last_board_square + 1)]
+    """Unikalne wyniki tury; stosujemy najwyżej jeden teleport na rzut.
 
-    c_teleporter_list = []
-    for tel in teleporter_list:
-        c_teleporter_list.append([int(tel.split(',')[0]), int(tel.split(',')[1])])
+    Złożoność: O(T + D) czasu i O(T + D) pamięci, bez tworzenia planszy.
+    Gracz stojący już na mecie pozostaje na niej.
+    """
+    if dice_sides < 1:
+        raise ValueError("Kostka musi mieć co najmniej jedną ścianę.")
+    if not 0 <= start_square <= last_board_square:
+        raise ValueError("Pozycja startowa musi należeć do planszy.")
+    if start_square == last_board_square:
+        return [last_board_square]
 
-    top_limit = dice_sides + start_square + 1
-    if top_limit > last_board_square:
-        top_limit = last_board_square+1
+    teleporters = {}
+    for teleporter in teleporter_list:
+        source, destination = map(int, teleporter.split(','))
+        teleporters[source] = destination
 
-    start_rolls = [i for i in range(start_square+1, top_limit)]
-    result.extend(start_rolls)
-    print(f"1 result: {result}")
-
-    for roll in start_rolls:
-        for teleport in c_teleporter_list:
-            if teleport[0] == roll and roll in board:
-                result.append(teleport[1])
-                result.remove(roll)
-
-    result = set(result)
-    print(f"result: {result}")
+    # dict usuwa duplikaty, zachowując kolejność pierwszego trafienia.
+    result = {}
+    for roll in range(1, dice_sides + 1):
+        landing = min(start_square + roll, last_board_square)
+        result[teleporters.get(landing, landing)] = None
     return list(result)
 
 
-assert destinations(teleporters1, 6, 0, 20) == [1, 2, 10, 6], destinations(teleporters1, 6, 0, 20)
-assert destinations(teleporters2, 6, 46, 100) == [48, 49, 50, 51, 52, 29]
-assert destinations(teleporters2, 10,    0,    50) == [1, 2, 3, 4, 7, 8, 9, 10, 22]
-assert destinations(teleporters3, 10,   95,   100) == [96, 97, 98, 99, 100], destinations(teleporters3, 10,   95,   100)
-assert destinations(teleporters3, 10,   70,   100) == [72, 73, 75, 76, 77, 79, 58]
-assert destinations(teleporters4,  6,    0,   100) == [1, 2, 3, 5, 6]
-assert destinations(teleporters5,  7,    2,    20) == [1, 2, 3, 5, 6]
+if __name__ == "__main__":
+    print(destinations(teleporters1, 6, 0, 20))

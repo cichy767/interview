@@ -1,82 +1,68 @@
-# Threading vs multiprocessing
+# Threading, multiprocessing i asyncio
 
-## Kluczowe różnice:
-### Definicja
+## Krótka odpowiedź rekrutacyjna
 
-* threading → Wykorzystuje wątki (threads), które współdzielą pamięć w obrębie jednego procesu.
+- `threading`: wątki współdzielą pamięć procesu. Przydatne przy blokującym I/O;
+  współdzielone dane mogą wymagać blokad.
+- `multiprocessing`: osobne procesy z własną pamięcią i interpreterami. Umożliwia
+  równoległe obliczenia w czystym Pythonie także przy włączonym GIL, kosztem
+  uruchamiania procesów i komunikacji między nimi.
+- `asyncio`: korutyny i pętla zdarzeń; przydatne przy wielu operacjach I/O
+  obsługiwanych przez biblioteki asynchroniczne.
 
-* multiprocessing → Tworzy osobne procesy (processes), każdy z własną pamięcią i interpreterem Pythona.
+W standardowym CPythonie z GIL wątki nie wykonują równolegle kodu bajtowego w tym
+samym interpreterze. Wyjątkiem są m.in. obliczenia w rozszerzeniach zwalniających GIL.
+Od Pythona 3.13 dostępny jest też opcjonalny wariant free-threaded bez GIL.
+`asyncio` samo nie zrównolegla obliczeń CPU-bound.
 
-Obsługa Global Interpreter Lock (GIL)
-
-threading → Podlega GIL, więc wątki nie mogą wykonywać kodu Python równocześnie na różnych rdzeniach CPU.
-
-multiprocessing → Nie podlega GIL, ponieważ każdy proces ma własną instancję interpretera Pythona i może działać równolegle na różnych rdzeniach CPU.
-
-### Zastosowanie
-
-threading → Dobre dla zadań I/O-bound (np. operacje na plikach, pobieranie danych z API, obsługa sieci).
-
-multiprocessing → Dobre dla zadań CPU-bound (np. operacje numeryczne, analiza danych, AI/ML).
-
-### Pamięć
-
-threading → Wątki współdzielą pamięć, co ułatwia komunikację, ale wymaga synchronizacji (np. Lock).
-
-multiprocessing → Każdy proces ma osobną pamięć, co zwiększa stabilność, ale wymaga mechanizmów IPC (np. Queue, Pipe, Manager).
-Koszt tworzenia
-
-threading → Tworzenie wątku jest szybsze i mniej zasobożerne niż tworzenie procesu.
-
-multiprocessing → Tworzenie procesu jest droższe (czas i pamięć), ale eliminuje problemy związane z GIL.
-
-
-🔹 Podsumowanie
-Używaj threading, gdy masz małą liczbę zadań I/O-bound, ale musisz korzystać z kodu, który nie obsługuje asyncio (np. starsze biblioteki).
-Używaj asyncio, gdy chcesz obsłużyć dużo operacji I/O jednocześnie w sposób bardziej efektywny (np. serwery HTTP, klienci baz danych).
-Jeśli zadania są CPU-bound, to ani threading, ani asyncio nie są dobrym wyborem – w takim przypadku multiprocessing będzie lepsze.
-Chcesz rozwinąć któryś z tych punktów bardziej szcze
-
+## Przykład wątków
 
 ```python
-import threading
-import time
+from threading import Thread
+from time import sleep
+
 
 def worker():
     print("Start wątku")
-    time.sleep(2)
+    sleep(2)
     print("Koniec wątku")
 
-threads = []
-for _ in range(5):
-    t = threading.Thread(target=worker)
-    t.start()
-    threads.append(t)
 
-for t in threads:
-    t.join()
-
-print("Wszystkie wątki zakończone")
-
+if __name__ == "__main__":
+    threads = [Thread(target=worker) for _ in range(5)]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
 ```
 
+## Przykład procesów
+
+Przy metodzie startu `spawn`, używanej m.in. na Windows, kod tworzący procesy musi
+być pod `if __name__ == "__main__":`. Funkcja pracownika musi być importowalna,
+więc zapisz przykład do pliku `.py` i uruchom go jako skrypt.
+
 ```python
-import multiprocessing
-import time
+from multiprocessing import Process
+from time import sleep
+
 
 def worker():
     print("Start procesu")
-    time.sleep(2)
+    sleep(2)
     print("Koniec procesu")
 
-processes = []
-for _ in range(5):
-    p = multiprocessing.Process(target=worker)
-    p.start()
-    processes.append(p)
 
-for p in processes:
-    p.join()
-
-print("Wszystkie procesy zakończone")
+if __name__ == "__main__":
+    processes = [Process(target=worker) for _ in range(5)]
+    for process in processes:
+        process.start()
+    for process in processes:
+        process.join()
 ```
+
+## Źródła
+
+- [Python — threading](https://docs.python.org/3/library/threading.html)
+- [Python — bezpieczny import przy multiprocessing](https://docs.python.org/3/library/multiprocessing.html#safe-importing-of-main-module)
+- [Python — free threading](https://docs.python.org/3/howto/free-threading-python.html)

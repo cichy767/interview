@@ -1,0 +1,16 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+# Błędy składni i wykonania; bez narzucania stylu wszystkim ćwiczeniom.
+select = ["E9", "F63", "F7", "F82"]
+
+[tool.ruff.lint.per-file-ignores]
+# Celowe porównania przez is i niepusta krotka pokazują tożsamość i truthiness.
+"kodowanie/zadania_live_coding/jak_to_dziala/typy_danych.py" = ["F632", "F634"]

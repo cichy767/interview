@@ -11,6 +11,9 @@ class ValidationError(Exception):
         self.errors = errors
 
 
-# raise ValidationError('Error!', 'error')
-
-raise MyException('MY OWN EXCEPTION!')
+if __name__ == "__main__":
+    # Celowa demonstracja własnego wyjątku i jego przechwycenia.
+    try:
+        raise MyException('MY OWN EXCEPTION!')
+    except MyException as exc:
+        print(f"Przechwycono MyException: {exc}")

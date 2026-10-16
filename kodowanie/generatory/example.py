@@ -1,24 +1,22 @@
-# lazy evaluation - generowanie wartości dopiero gdy są one potrzebne. funkcja wykonuje się z opóźnieniem. nie jest ładowane wszystko od razu do pamięci
-# zamiast listy można przekazywać generator
+"""Leniwy odczyt rekordów; plik pozostaje otwarty podczas iteracji."""
+
+from contextlib import closing
+from itertools import islice
+from pathlib import Path
+
 
 def get_records(file_patch):
-    print("----opening file----")
-    file = open(file_patch)
-
-    for line in file:
-        if ':' in line:
-            msg_type, action = line.rstrip("\n").split(':', 1)
-            record = (msg_type, action)
-            yield record
-
-    print("----closing file----")
-    file.close()
+    # with zamknie plik przy wyczerpaniu generatora, close() lub wyjątku.
+    with open(file_patch, encoding="utf-8") as file:
+        for line in file:
+            if ':' in line:
+                msg_type, action = line.rstrip("\n").split(':', 1)
+                yield msg_type, action
 
 
-# for r in get_records('file.txt'):
-#     print(f"The type is {r[0]} and the action is: {r[1]}.")
-
-gen = get_records('help/file.txt')
-r1 = next(gen)
-print(r1)
-r2 = next(gen)
+if __name__ == "__main__":
+    source = Path(__file__).parent / "help" / "file.txt"
+    # Przy wcześniejszym przerwaniu iteracji jawnie zamykamy generator.
+    with closing(get_records(source)) as gen:
+        for record in islice(gen, 2):
+            print(record)

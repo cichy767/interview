@@ -5,9 +5,6 @@ import time
 names = ['John', 'Corey', 'Adam', 'Steve', 'Rick', 'Thomas']
 majors = ['Math', 'Engineering', 'CompSci', 'Arts', 'Business']
 
-print('Memory (Before): {}Mb'.format(mem_profile.memory_usage_psutil()))
-
-
 def people_list(num_people):
     result = []
     for i in range(num_people):
@@ -30,13 +27,14 @@ def people_generator(num_people):
         yield person
 
 
-# t1 = time.clock()
-# people = people_list(1000000)
-# t2 = time.clock()
-
-t1 = time.clock()
-people = people_generator(1000000)
-t2 = time.clock()
-
-print('Memory (After) : {}Mb'.format(mem_profile.memory_usage_psutil()))
-print('Took {} Seconds'.format(t2 - t1))
+if __name__ == "__main__":
+    # Uruchom z katalogu repo: python -m kodowanie.generatory.third_example
+    print(f'Memory (Before): {mem_profile.memory_usage_psutil():.2f} MiB')
+    start = time.perf_counter()
+    people = people_generator(1000000)
+    created = time.perf_counter()
+    print(f'Generator creation: {created - start:.6f} seconds')
+    # Utworzenie generatora nie wykonuje jego ciała; dopiero iteracja tworzy dane.
+    count = sum(1 for _ in people)
+    print(f'Generated {count} records in {time.perf_counter() - created:.3f} seconds')
+    print(f'Memory (After): {mem_profile.memory_usage_psutil():.2f} MiB')

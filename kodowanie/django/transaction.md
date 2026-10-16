@@ -50,13 +50,18 @@ with transaction.atomic():
     transaction.on_commit(lambda: send_email(user.id))  # Ensures function runs only after commit
 ```
 
-## 3. How does `select_for_update()` work, and how does it prevent deadlocks?
+## 3. How does `select_for_update()` work, and can it cause deadlocks?
 
 `select_for_update()` locks rows at the **database level** to prevent concurrent transactions from modifying the same row at the same time.
 
 - It **ensures that only one transaction can modify a row at a time**.
 - Other transactions trying to lock the same row must **wait until the first transaction commits or rolls back**.
-- This prevents **race conditions and deadlocks**, ensuring data consistency.
+- This can prevent **lost updates** when the read and write happen in the same transaction under the row lock.
+- Row locks can also **cause deadlocks**: transaction A locks row 1 and waits for row 2, while transaction B locks row 2 and waits for row 1.
+- Acquire locks in a consistent order, keep transactions short, and retry the whole transaction if the database aborts it due to a deadlock.
+- Ordinary reads are generally not blocked by these row locks in PostgreSQL. On SQLite, `select_for_update()` has no effect.
+
+Sources: [PostgreSQL locking and deadlocks](https://www.postgresql.org/docs/17/explicit-locking.html#LOCKING-DEADLOCKS), [Django select_for_update](https://docs.djangoproject.com/en/5.2/ref/models/querysets/#select-for-update).
 
 ### Example:
 
@@ -75,13 +80,12 @@ PostgreSQL handles row-level locks using `SELECT ... FOR UPDATE`, ensuring that 
 
 ### Key Aspects of How PostgreSQL Handles `select_for_update()`:
 
-- PostgreSQL stores lock information in **shared memory** and manages locks using:
-  - **`pg_locks` system catalog** → You can check active locks with:
+- PostgreSQL records row locks in the rows themselves; waiting transactions and other lock information can be inspected through:
+  - **`pg_locks` system view** → You can check active locks with:
     ```sql
     SELECT * FROM pg_locks;
     ```
-  - **Write-Ahead Logging (WAL)** → Ensures transaction recovery in case of crashes.
-  - **MVCC (Multiversion Concurrency Control)** → Allows multiple transactions to read data while ensuring exclusive writes.
+- **Write-Ahead Logging (WAL)** provides crash recovery, and **MVCC** provides snapshot-based visibility. These mechanisms complement locking, but they are not the row-lock manager.
 
 - If a transaction **holds a lock** on a row:
   - Other transactions **must wait** before modifying it.
